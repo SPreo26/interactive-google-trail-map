@@ -4,24 +4,28 @@
   var app = angular.module("app");
 
   app.controller("mapCtrl", function($scope, MapService){
-
     $scope.setup = function(){
       $scope.currentPage = 0;
-      $scope.pageSize = 50;
-      $scope.numberOfPages = 1;
+      $scope.pageSize = 10;
+      $scope.numberOfPages = function(){return 1};//before marker data is loaded, assume 1 page
     };
 
     angular.element(document).ready(function () {
       MapService.init().then(function(data){
         $scope.data = data;
         $scope.numberOfPages=function(){
-        console.log('numpg')
-        return Math.ceil($scope.data.map.length/$scope.pageSize);
+        return Math.ceil($scope.data.ngMarkers.length/$scope.pageSize);
         };
       });
-      //$scope.$apply();
     });
+
+    $scope.changePage = function(directionSign){
+      $scope.currentPage=$scope.currentPage+directionSign;//page buttons are automatically disabled in html to prevent going out of bounds
+    }
+
+
     window.$scope = $scope;
+
   });
 
 }());

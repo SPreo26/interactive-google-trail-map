@@ -3,46 +3,45 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Pacific Coast Trail</title>
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-        width: 50%;
-      }
-      #marker-list {
-        display: inline-block;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
+    <title>Trail Interactive Map</title>
+    <link rel="stylesheet" href="./style.css" type="text/css">
+
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAdsCCyux3pJFFe1QtcQiDT6FEuMx-mlU"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.0/angular.min.js"></script>
-    <script src="./pct-data.js"></script>
     <script src="./ng-app.js"></script>
+    <script defer src="./pct-data.js"></script>
     <script defer src="./init-Map.js"></script>
     <script defer src="./map-ctrl.js"></script>
   </head>
 
   <body ng-app="app">
-    <div ng-controller="mapCtrl" ng-init="setup()" id="map"></div>
-    <ul id="marker-list">
-        <li ng-repeat="item in data | pageStart:currentPage*pageSize | pageEnd:pageSize">
-            {{item}}
-        </li>
-    </ul>
-    <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
-        Previous
-    </button>
-    {{currentPage+1}}/{{numberOfPages()}}
-    <button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1">
-        Next
-    </button>
+    <div id="main-wrapper" ng-controller="mapCtrl" ng-init="setup()">
+      <div id="map"></div>
+      <div id="marker-list-wrapper">
+        <table>
+          <tr>
+            <td class="remove-column">Remove</td>
+            <th>Mile</th>
+            <th>Lattitude</th>
+            <th>Longitude</th>
+          </tr>
+          <tr ng-repeat="marker in data.ngMarkers | pageStart:currentPage*pageSize | pageEnd: pageSize">
+            <td class="remove-column"><input type="checkbox"></input></td>
+            <td>{{marker.mile}}</td>
+            <td>{{marker.lat}}</td>
+            <td>{{marker.lng}}</td>
+          </tr>
+        </table>
+        <br/>
+        <button ng-disabled="currentPage == 0" ng-click="changePage(-1)">
+          Previous
+        </button>
+        {{currentPage+1}}/{{numberOfPages()}}
+        <button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="changePage(1)">
+            Next
+        </button>
+      </div>
+    </div>
   </body>
 </html>

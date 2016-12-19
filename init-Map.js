@@ -7,7 +7,7 @@
 
     //function to intitialize the map
     factory.init = function () {
-      var deferred = $q.defer();
+      var deferred = $q.defer();//used for being able to have a .then callback after map initiation (see the promise returned at the end of this function)
       var mapData = [];
       var markers = [];
       var bounds = new google.maps.LatLngBounds();

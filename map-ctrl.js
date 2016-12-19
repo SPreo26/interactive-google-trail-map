@@ -20,7 +20,21 @@
     });
 
     $scope.changePage = function(directionSign){
+      $scope.revertCurrentPage()//clear any edits after page is switched
       $scope.currentPage=$scope.currentPage+directionSign;//page buttons are automatically disabled in html to prevent going out of bounds
+    }
+
+    $scope.revertCurrentPage= function(){//clear any edits (update ngMarkers from gMarkers)
+      MapService.updateNgMarkers($scope.data.ngMarkers,$scope.data.gMarkers);
+    }  
+
+    //propogate edits/deletions to google maps marker objects
+    $scope.updateGMarkers = function(){
+      MapService.updateGMarkers($scope.data.ngMarkers,$scope.data.gMarkers);
+    }
+
+    $scope.addMarker = function(){
+      //use service to add one marker on map
     }
 
 

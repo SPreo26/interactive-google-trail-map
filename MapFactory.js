@@ -44,15 +44,36 @@
       return deferred.promise;
     };
 
-    return factory;
-  });
+    factory.updateGMarkers = function(ngMarkers,gMarkers) {
+      gMarkers.forEach(function(gMarker){
+        gMarker.setMap(null);//remove each marker from the map
+      })
+      gMarkers=[];//empty gMarker array and repopulate it with new ngMarker data
+      ngMarkers.forEach(function(ngMarker){
+                var gMarker = new google.maps.Marker({
+                position: {lat: ngMarker[1], lng: ngMarker[2]},
+                map: window.map,
+                title: 'Mile ' + ngMarker[0],
+                icon: $rootScope.icon
+              });
+              gMarkers.push(gMarker);
+              //extend bounds for auto-zoom with each added marker
+              var loc = new google.maps.LatLng(gMarker.position.lat(), gMarker.position.lng());
+              bounds.extend(loc);
+      })
+      window.map.fitBounds(bounds);//auto-zoom
+      return {ngMarkers:ngMarkers, gMarkers:gMarkers};
+    }
 
-  app.service('MapService', function(MapFactory) {
-    //this service is intended to make available any functions provided by the MapFactory (like MapFactory.init to initiate the map)
-    this.init = function(){
-      return MapFactory.init();
-    };
-    
+    factory.addGMarker = function(gMarkers,gMarker) {
+      //TBD
+    }
+
+    factory.updateNgMarkers = function(ngMarkers,gMarkers){
+      //TBD
+    }
+
+    return factory;
   });
   
 }());

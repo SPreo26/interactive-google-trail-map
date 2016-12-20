@@ -28,9 +28,9 @@
           </tr>
           <tr ng-repeat="marker in data.ngMarkers | pageStart:currentPage*pageSize | pageEnd: pageSize">
             <td class="remove-column"><input type="checkbox"></input></td>
-            <td>{{marker.mile}}</td>
-            <td>{{marker.lat}}</td>
-            <td>{{marker.lng}}</td>
+            <td><input type="text" ng-model="marker.mile"></td>
+            <td><input type="text" ng-model="marker.lat"></td>
+            <td><input type="text" ng-model="marker.lng"></td>
           </tr>
         </table>
         <br/>
@@ -41,6 +41,9 @@
         <button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="changePage(1)">
             Next
         </button>
+        <br/>
+        <br/>
+        <button ng-click="mapReload()" ng-disabled="!(contentLoadedOnce)">Reload Original Data</button>
       </div>
     </div>
   </body>

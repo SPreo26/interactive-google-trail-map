@@ -34,3 +34,6 @@ th, td {
   width: 10%;
   color:#444;
 }
+button{
+  font-weight:bold;
+}

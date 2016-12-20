@@ -28,7 +28,7 @@
       //getInitialData is defined in pct-data.js
       return $rootScope.getInitialData().then(
         function(data){
-          var icon = data.icon;//marker icon object
+          $rootScope.icon = data.icon;//marker icon object
           var rawData = data.rawData;//raw marker data
 
           //initialize bounds to be extended after each marker is added
@@ -47,7 +47,8 @@
               position: {lat: elem[1], lng: elem[2]},
               map: map,
               title: 'Mile ' + elem[0],
-              icon: icon
+              icon: $rootScope.icon,
+              mile: elem[0]//custom property used to be able to revert edits made to miles
             });
 
             gMarkers.push(gMarker);
@@ -59,11 +60,12 @@
 
           //auto-zoom now that bounds are known with all markers being on map
           window.map.fitBounds(bounds);
+          factory.roundAllNgMarkerValues(ngMarkers);
 
           deferred.resolve({ngMarkers:ngMarkers,gMarkers:gMarkers});
           return deferred.promise;
         },
-        
+
         function(error){
           alert("Failed to retrieve initial marker data - see browser console for error");
           console.log(error);
@@ -72,25 +74,31 @@
     };
 
     //update google map marker object array as a result of UI manipulation on markers (edit,add,delete)
-    factory.updateGMarkers = function(ngMarkers,gMarkers) {
+    factory.updateGMarkerValues = function(ngMarkers,gMarkers) {
       gMarkers.forEach(function(gMarker){
         gMarker.setMap(null);//remove each marker from the map
       })
+      var bounds = new google.maps.LatLngBounds();
       //empty gMarker array and repopulate it with new ngMarker data
       gMarkers=[];
       ngMarkers.forEach(function(ngMarker){
                 var gMarker = new google.maps.Marker({
-                position: {lat: ngMarker[1], lng: ngMarker[2]},
-                map: window.map,
-                title: 'Mile ' + ngMarker[0],
-                icon: $rootScope.icon
-              });
+                  position: {lat: +ngMarker.lat, lng: +ngMarker.lng},//must convert lat and lng to int
+                  map: window.map,
+                  title: 'Mile ' + ngMarker.mile,
+                  icon: $rootScope.icon,
+                  mile: ngMarker.mile
+                });
               gMarkers.push(gMarker);
-              //extend bounds for auto-zoom with each added marker
-              var loc = new google.maps.LatLng(gMarker.position.lat(), gMarker.position.lng());
-              bounds.extend(loc);
+              // removed auto-zooming for updating markers
+              // //extend bounds for auto-zoom with each added marker
+              // var loc = new google.maps.LatLng(gMarker.position.lat(), gMarker.position.lng());
+              // bounds.extend(loc);
       })
-      window.map.fitBounds(bounds);//auto-zoom
+      // removed auto-zooming for updating markers
+      // window.map.fitBounds(bounds);//auto-zoom
+      factory.roundAllNgMarkerValues(ngMarkers);
+
       return {ngMarkers:ngMarkers, gMarkers:gMarkers};
     }
 
@@ -98,8 +106,25 @@
       //TBD
     }
 
-    factory.updateNgMarkers = function(ngMarkers,gMarkers){
-      //TBD
+    factory.updateNgMarkerValues = function(ngMarkers,gMarkers){
+      gMarkers.forEach(function(gMarker,index){
+        ngMarkers[index].mile=gMarker.mile;
+        ngMarkers[index].lat=gMarker.position.lat();
+        ngMarkers[index].lng=gMarker.position.lng();
+      })
+      factory.roundAllNgMarkerValues(ngMarkers);
+    }
+
+    factory.removeSelectedMarkers= function(ngMarkers,gMarkers){
+
+    };
+
+    factory.roundAllNgMarkerValues = function(ngMarkers){
+      ngMarkers.forEach(function(ngMarker){
+        ngMarker.mile=Math.round(ngMarker.mile*10)/10;
+        ngMarker.lat=Math.round(ngMarker.lat*1000)/1000;
+        ngMarker.lng=Math.round(ngMarker.lng*1000)/1000;
+      });
     }
 
     return factory;

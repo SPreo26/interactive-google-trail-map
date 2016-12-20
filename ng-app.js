@@ -26,8 +26,9 @@
       return MapFactory.loadInitialData(window.map); //on success returns a promise
     }
 
-    this.updateGMarkers = function(ngMarkers){
-      MapFactory.updateGMarkers(ngMarkers,gMarkers);
+    this.updateGMarkers = function(ngMarkers,gMarkers){
+      MapFactory.removeSelectedMarkers(ngMarkers,gMarkers);
+      MapFactory.updateGMarkerValues(ngMarkers,gMarkers);
     };
 
     this.addMarker = function(gMarkers,gMarker){
@@ -35,7 +36,7 @@
     };
 
     this.updateNgMarkers = function(ngMarkers,gMarkers){
-      MapFactory.updateNgMarkers(ngMarkers,gMarkers);
+      MapFactory.updateNgMarkerValues(ngMarkers,gMarkers);
     };
 
   });

@@ -21,29 +21,35 @@
       <div id="marker-list-wrapper">
         <table>
           <tr>
-            <td class="remove-column">Remove</td>
+            <td class="remove-column misc-text">(Remove)</td>
             <th>Mile</th>
             <th>Lattitude</th>
             <th>Longitude</th>
           </tr>
           <tr ng-repeat="marker in data.ngMarkers | pageStart:currentPage*pageSize | pageEnd: pageSize">
-            <td class="remove-column"><input type="checkbox"></input></td>
+            <td class="remove-column marker-checkbox"><input type="checkbox" ng-model="marker.selected"></input></td>
             <td><input type="text" ng-model="marker.mile"></td>
             <td><input type="text" ng-model="marker.lat"></td>
             <td><input type="text" ng-model="marker.lng"></td>
           </tr>
         </table>
         <br/>
-        <button ng-disabled="currentPage == 0" ng-click="changePage(-1)">
-          Previous
-        </button>
-        {{currentPage+1}}/{{numberOfPages()}}
-        <button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="changePage(1)">
-            Next
-        </button>
-        <br/>
-        <br/>
-        <button ng-click="mapReload()" ng-disabled="!(contentLoadedOnce)">Reload Original Data</button>
+        <div class="first-row-buttons">
+          <button ng-disabled="currentPage == 0" ng-click="changePage(-1)">
+            Previous
+          </button>
+          <div class="misc-text page-number">
+            <div>{{currentPage+1}}/{{numberOfPages()}}</div>
+          </div>
+          <button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="changePage(1)">
+              Next
+          </button>
+          <div class="task-button-wrapper">
+            <button ng-click="mapReload()" ng-disabled="!(contentLoadedOnce)">Reload Original</button>
+            <button ng-click="updateGMarkers()" ng-disabled="!(contentLoadedOnce)">Save Changes</button>
+            <button ng-click="revertUnsavedChanges()" ng-disabled="!(contentLoadedOnce)">Revert Unsaved Changes</button>
+          </div>
+        </div>
       </div>
     </div>
   </body>

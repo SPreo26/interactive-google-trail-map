@@ -46,7 +46,9 @@
       );
     };
 
-    $scope.revertCurrentPage= function(){//clear any edits (update ngMarkers from gMarkers)
+    $scope.revertUnsavedChanges = function(){//clear any edits (update ngMarkers from gMarkers)
+      $scope.deselectAllMarkers();
+      //repopulate data in table with data from map
       MapService.updateNgMarkers($scope.data.ngMarkers,$scope.data.gMarkers);
     };  
 
@@ -60,9 +62,15 @@
     };
 
     $scope.changePage = function(directionSign){
-      $scope.revertCurrentPage()//clear any edits after page is switched
+      $scope.revertUnsavedChanges()//clear any edits after page is switched
       $scope.currentPage=$scope.currentPage+directionSign;//page buttons are automatically disabled in html to prevent going out of bounds
     };
+
+    $scope.deselectAllMarkers = function(){
+      $scope.data.ngMarkers.forEach(function(marker){
+        marker.selected = false;
+      })
+    }
 
     window.$scope = $scope;
 

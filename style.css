@@ -24,16 +24,41 @@ table, td, th {
   text-align: left;
 }
 table {
+  font-family: helvetica;
   border-collapse: collapse;
-  width: 40vw;
+  width: 45vw;
 }
 th, td {
-  padding: 15px;
+  padding: 13px;
 }
 .remove-column{
   width: 10%;
-  color:#444;
+  padding-bottom: 15px;
+  font-size: 13px;
+}
+.task-button-wrapper{
+  display: inline-block;
+  margin-left: 12px;
 }
 button{
-  font-weight:bold;
+  background-color: beige;
+  border-width:2px;
+  border-radius:4px;
+  border-color:#c1bbae;
+  color: #353535;
+}
+.task-button-wrapper button{
+  height: 30px;
+  font-size: 13px;
+  margin-left: 8px;
+}
+.miscText{
+  color:#383838;
+}
+.page-number{
+  display: inline-block;
+  vertical-align:bottom;
+  margin-bottom: 6px;
+  margin-left:5px;
+  margin-right:5px;
 }

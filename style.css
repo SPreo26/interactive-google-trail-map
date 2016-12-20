@@ -64,6 +64,7 @@ button{
   margin-right:5px;
 }
 button:disabled{
- background-color:silver;
- border-color:#aaa292;
+ background-color:#E0E0E0;
+ border-color:#b5b0a8;
+ color:#777;
 };

@@ -86,6 +86,12 @@
       return ngMarkers.sort(compareByMile);
     }
 
+    //filter comparator to get results starting with search string (e.g. start of mile string must match search)
+    $scope.startsWith = function (actual, expected) {
+      var lowerStr = (actual + "").toLowerCase();
+      return lowerStr.indexOf(expected.toLowerCase()) === 0;
+    }
+
     window.$scope = $scope;
 
   });

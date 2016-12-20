@@ -73,10 +73,19 @@
       );
     };
 
+    //remove markers selected via checkboxes only from ngMarkers (should be followed up by factory.updateGMarkerValues to sync up these changes with gMarkers and map)
+    factory.removeSelectedNgMarkers = function(ngMarkers){
+      return ngMarkers.filter(
+        function(marker){
+          return !(marker.selected);
+        }
+      );
+    };
+
     //update google map marker object array as a result of UI manipulation on markers (edit,add,delete)
     factory.updateGMarkerValues = function(ngMarkers,gMarkers) {
       gMarkers.forEach(function(gMarker){
-        gMarker.setMap(null);//remove each marker from the map
+        gMarker.setMap(null);//remove each marker from the map (they are to be readded to new or the same locaions based on ngMarkers)
       })
       var bounds = new google.maps.LatLngBounds();
       //empty gMarker array and repopulate it with new ngMarker data
@@ -115,15 +124,11 @@
       factory.roundAllNgMarkerValues(ngMarkers);
     }
 
-    factory.removeSelectedMarkers= function(ngMarkers,gMarkers){
-
-    };
-
     factory.roundAllNgMarkerValues = function(ngMarkers){
       ngMarkers.forEach(function(ngMarker){
         ngMarker.mile=Math.round(ngMarker.mile*10)/10;
-        ngMarker.lat=Math.round(ngMarker.lat*1000)/1000;
-        ngMarker.lng=Math.round(ngMarker.lng*1000)/1000;
+        ngMarker.lat=Math.round(ngMarker.lat*100000)/100000;
+        ngMarker.lng=Math.round(ngMarker.lng*100000)/100000;
       });
     }
 

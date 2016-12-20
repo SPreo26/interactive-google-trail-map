@@ -24,7 +24,7 @@ table, td, th {
   text-align: left;
 }
 table {
-  font-family: helvetica;
+  font-family: Helvetica, sans-serif;
   border-collapse: collapse;
   width: 45vw;
 }
@@ -35,6 +35,7 @@ th, td {
   width: 10%;
   padding-bottom: 15px;
   font-size: 13px;
+  font-family: Tahoma, Geneva, sans-serif;
 }
 .task-button-wrapper{
   display: inline-block;
@@ -52,8 +53,8 @@ button{
   font-size: 13px;
   margin-left: 8px;
 }
-.miscText{
-  color:#383838;
+.misc-text{
+  color:#333;
 }
 .page-number{
   display: inline-block;

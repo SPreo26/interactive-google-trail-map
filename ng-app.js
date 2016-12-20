@@ -27,8 +27,8 @@
     }
 
     this.updateGMarkers = function(ngMarkers,gMarkers){
-      MapFactory.removeSelectedMarkers(ngMarkers,gMarkers);
-      MapFactory.updateGMarkerValues(ngMarkers,gMarkers);
+      return MapFactory.updateGMarkerValues(
+        MapFactory.removeSelectedNgMarkers(ngMarkers), gMarkers);
     };
 
     this.addMarker = function(gMarkers,gMarker){
@@ -39,7 +39,9 @@
       MapFactory.updateNgMarkerValues(ngMarkers,gMarkers);
     };
 
+
   });
+
 
   //custom filters for page start and page end
   app.filter('pageStart', function() {

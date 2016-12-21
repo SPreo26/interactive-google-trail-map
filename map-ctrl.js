@@ -100,7 +100,21 @@
     $scope.addMarker = function(){
       $scope.revertUnsavedChanges();
       var ngMarker=$scope.newMarker;
-      MapService.addMarker($scope.data.gMarkers,$scope.data.ngMarkers,ngMarker)
+      $scope.data=MapService.addMarker($scope.data.gMarkers,$scope.data.ngMarkers,ngMarker)
+
+      if ($scope.search){
+        $scope.search.mile="";
+      }
+
+      //set current page to page that contains the marker (search by mile)
+      //(this assumes only markers with unique mile numbers are entered - otherwise ngMarkers is sorted so derived page should still be fairly accurate)
+      var i;//will have the index of the marker we search for
+      for(i = 0; i < $scope.data.ngMarkers.length; i++) {
+        if($scope.data.ngMarkers[i].mile === parseFloat($scope.newMarker.mile)) {
+          break;
+        }
+      }
+      $scope.currentPage=Math.ceil((i+1)/$scope.pageSize);
       $scope.newMarker=null;
     };
 

@@ -38,7 +38,6 @@ app.service('MapService', function(MapFactory) {
       ngMarkers=MapFactory.sortMarkersByMile(ngMarkers);
       gMarkers=MapFactory.addGMarker(gMarkers,ngMarker);
       gMarkers=MapFactory.sortMarkersByMile(gMarkers);
-
       return {ngMarkers:ngMarkers, gMarkers:gMarkers};
     };
 

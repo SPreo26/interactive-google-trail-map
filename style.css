@@ -195,10 +195,6 @@ td {
 button, .table-button{
   border-radius:4px;
 }
-button :not(:disabled){
-  cursor: pointer;
-  cursor: hand;
-}
 button{
   border-width:2px;
   background-color: beige;
@@ -221,5 +217,7 @@ button:disabled{
 }
 button:not(.table-button):not(:disabled):hover {
   background-color: cornsilk;
+  cursor: pointer;
+  cursor: hand;
 }
 

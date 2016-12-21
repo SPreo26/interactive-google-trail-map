@@ -48,7 +48,7 @@
         </div>
         <div class="button-column">
           <div class="search-wrapper button-column-group">
-            <input class="search-bar misc-text" placeholder="Find by Mile" ng-model="search.mile" ng-change="makeSurePageNotOutOfBounds()">
+            <input class="search-bar misc-text" placeholder="Find by Mile" ng-model="search.mile" ng-change="currentPage=1">
           </div>
           <div class="column-button-wrapper button-column-group">
             <button ng-click="mapReload()" ng-disabled="!(contentLoadedOnce)"><div class="button-text"> Load Original</div></button>

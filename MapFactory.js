@@ -42,7 +42,7 @@
           //populate gMarkers and ngMarkers
           rawData.forEach(function(elem){
             ngMarkers.push({mile: elem[0], lat: elem[1], lng: elem[2]});
-           
+            
             var gMarker = new google.maps.Marker({
               position: {lat: elem[1], lng: elem[2]},
               map: map,
@@ -90,30 +90,27 @@
       var bounds = new google.maps.LatLngBounds();
       //empty gMarker array and repopulate it with new ngMarker data
       gMarkers=[];
-      ngMarkers.forEach(function(ngMarker){
-                var gMarker = new google.maps.Marker({
-                  position: {lat: +ngMarker.lat, lng: +ngMarker.lng},//must convert lat and lng to int
-                  map: window.map,
-                  title: 'Mile ' + ngMarker.mile,
-                  icon: $rootScope.icon,
-                  mile: ngMarker.mile
-                });
-              gMarkers.push(gMarker);
-              // **removed auto-zooming for updating markers
-              // //extend bounds for auto-zoom with each added marker
-              // var loc = new google.maps.LatLng(gMarker.position.lat(), gMarker.position.lng());
-              // bounds.extend(loc);
+
+      ngMarkers.forEach(function(ngMarker){       
+        factory.addGMarker(gMarkers,ngMarker);
       })
-      // **removed auto-zooming for updating markers
-      // window.map.fitBounds(bounds);//auto-zoom
+
       factory.roundAllNgMarkerValues(ngMarkers)
       factory.sortMarkersByMile(ngMarkers);
       factory.sortMarkersByMile(gMarkers);
       return {ngMarkers:ngMarkers, gMarkers:gMarkers};
     }
 
-    factory.addGMarker = function(gMarkers,gMarker) {
-      //TBD
+    factory.addGMarker = function(gMarkers,ngMarker) {
+      var gMarker = new google.maps.Marker({
+            position: {lat: parseFloat(ngMarker.lat), lng: parseFloat(ngMarker.lng)},//must convert lat and lng to int
+            map: window.map,
+            title: 'Mile ' + ngMarker.mile,
+            icon: $rootScope.icon,
+            mile: parseFloat(ngMarker.mile)
+          });
+      gMarkers.push(gMarker);
+      return gMarkers;
     }
 
     //used to revert unsaved changes

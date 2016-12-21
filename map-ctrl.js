@@ -16,6 +16,11 @@
       MapService.init().then(
         function(data){
           $scope.data = data;
+          //data contains two arrays of objects:
+          //- ngMarkers which is the model for marker data displayed in list,
+          //- gMarkers which is the model for markers displayed on map
+          // these models are separate, but are synced up in either direction when needed
+
           //initialize searchFilteredMarkers set of ngMarkers as full set (used to figure out number of pages, depending on search bar filtering)
           $scope.searchFilteredMarkers=data.ngMarkers
           $scope.numberOfPages=function(){
@@ -73,14 +78,14 @@
     };
 
     $scope.removeSelectedMarkers = function(){
-      var areAnySelected = false;
+      var markersSelected = false;
       $scope.data.ngMarkers.forEach(function(marker){
         if(marker.selected){
-          areAnySelected=true;
+          markersSelected=true;
         }
       })
 
-      if (areAnySelected){
+      if (markersSelected){
         if (confirm("Delete selected markers: Are you sure?")){
           $scope.data=MapService.removeSelectedMarkers($scope.data.ngMarkers,$scope.data.gMarkers);
           $scope.searchFilteredMarkers=$scope.data.ngMarkers;
@@ -89,14 +94,14 @@
       }
       else{
         alert("Please select at least one marker to delete.")
-      }
-      
+      }      
     }
 
     $scope.addMarker = function(){
       $scope.revertUnsavedChanges();
-      //use service to add one marker on map
-      //figure out what page marker is on
+      var ngMarker=$scope.newMarker;
+      MapService.addMarker($scope.data.gMarkers,$scope.data.ngMarkers,ngMarker)
+      $scope.newMarker=null;
     };
 
     $scope.changePage = function(directionSign){

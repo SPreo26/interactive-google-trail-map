@@ -28,13 +28,18 @@ app.service('MapService', function(MapFactory) {
     this.removeSelectedMarkers = function(ngMarkers,gMarkers){
       //revert possible unsaved edits any other ngMarkers before deletion of selected ones; this way no unsaved edit carries over to gMarkers on map a side-effect of deletion
       ngMarkers = MapFactory.updateNgMarkerValues(ngMarkers,gMarkers);
-      
       ngMarkers = MapFactory.removeSelectedNgMarkers(ngMarkers);
+
       return MapFactory.updateGMarkerValues(ngMarkers,gMarkers);
     }
 
-    this.addMarker = function(gMarkers,gMarker){
-      MapFactory.addMarker(gMarkers,gMarker)
+    this.addMarker = function(gMarkers,ngMarkers,ngMarker){
+      ngMarkers.push(ngMarker);
+      ngMarkers=MapFactory.sortMarkersByMile(ngMarkers);
+      gMarkers=MapFactory.addGMarker(gMarkers,ngMarker);
+      gMarkers=MapFactory.sortMarkersByMile(gMarkers);
+
+      return {ngMarkers:ngMarkers, gMarkers:gMarkers};
     };
 
     this.updateNgMarkers = function(ngMarkers,gMarkers){

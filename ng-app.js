@@ -11,7 +11,7 @@
         return input.slice(start);
       }
       else {
-        return []
+        return [];
       }
     }
   });
@@ -23,7 +23,7 @@
         return input.slice(0,end);
       }
       else {
-        return []
+        return [];
       }
     }
   });

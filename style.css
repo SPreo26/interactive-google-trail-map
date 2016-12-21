@@ -206,18 +206,23 @@ button{
   border-style:solid;
   border-color:#DDD;
 }
-.table-button:hover:not(:disabled){
-  background-color:cornsilk;
+.table-button:hover(.enabled){
   border-color:#CCC;
 }
-button:disabled{
+button:not(.enabled){
  background-color:#E0E0E0;
  border-color:#b5b0a8;
  color:#777;
 }
-button:not(.table-button):not(:disabled):hover {
+button.enabled:hover, .table-button.enabled:hover {
   background-color: cornsilk;
   cursor: pointer;
   cursor: hand;
+}
+button:not(.enabled), .table-button:not(.enabled){
+  background-color:#E0E0E0;
+  border-color:#b5b0a8;
+  color:#777;
+  pointer-events:none;
 }
 

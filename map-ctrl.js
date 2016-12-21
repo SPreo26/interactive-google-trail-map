@@ -167,12 +167,12 @@
     }
 
     $scope.invalidNgMarker = function(ngMarker){
-      if(ngMarker===undefined || ngMarker===null){
+      if(!ngMarker){
         return true;
       }
-      var latInvalid = ngMarker.lat===undefined||ngMarker.lat===""||parseFloat(ngMarker.lat)>=90||parseFloat(ngMarker.lat)<=-90;
-      var lngInvalid = ngMarker.lng===undefined||ngMarker.lng===""||parseFloat(ngMarker.lng)>180||parseFloat(ngMarker.lng)<-180;
-      var mileInvalid = ngMarker.mile===undefined||ngMarker.mile===""||parseFloat(ngMarker.mile)<0;
+      var latInvalid = ngMarker.lat===undefined||ngMarker.lat===null||ngMarker.lat===""||parseFloat(ngMarker.lat)>=90||parseFloat(ngMarker.lat)<=-90;
+      var lngInvalid = ngMarker.lng===undefined||ngMarker.lng===null||ngMarker.lng===""||parseFloat(ngMarker.lng)>180||parseFloat(ngMarker.lng)<-180;
+      var mileInvalid = ngMarker.mile===undefined||ngMarker.mile===null||ngMarker.mile===""||parseFloat(ngMarker.mile)<0;
       return latInvalid||lngInvalid||mileInvalid;
     }
     //filter comparator to get results starting with search string (e.g. start of mile string must match search)

@@ -116,6 +116,7 @@
       //TBD
     }
 
+    //used to revert unsaved changes
     factory.updateNgMarkerValues = function(ngMarkers,gMarkers){
       gMarkers.forEach(function(gMarker,index){
         ngMarkers[index].mile=gMarker.mile;

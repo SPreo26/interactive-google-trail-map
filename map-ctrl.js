@@ -106,9 +106,13 @@
     };
 
     //in case reloading/searching caused number of pages to shrink, and one was on a page now out of bounds, set page to current last page
+    //also used to prevent user from entering pages out of bounds
     $scope.makeSurePageNotOutOfBounds = function(){   
       if (+$scope.currentPage>$scope.numberOfPages()){
         $scope.currentPage=$scope.numberOfPages();
+      }
+      if ($scope.currentPage!=""&&+$scope.currentPage<1){
+        $scope.currentPage=1;
       }
     }
 

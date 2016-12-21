@@ -62,7 +62,7 @@
               Previous
             </button>
             <div class="misc-text page-number">
-              <input class="page-input" ng-model="currentPage" ng-change="deselectAllMarkers();revertUnsavedChanges();"><div class="num-pages"> / {{numberOfPages()}}</div>
+              <input class="page-input" ng-model="currentPage" ng-change="makeSurePageNotOutOfBounds();deselectAllMarkers();revertUnsavedChanges()"><div class="num-pages"> / {{numberOfPages()}}</div>
             </div>
             <button ng-disabled="currentPage >= numberOfPages()" ng-click="changePage(1)">
               Next

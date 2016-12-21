@@ -99,15 +99,16 @@
                   mile: ngMarker.mile
                 });
               gMarkers.push(gMarker);
-              // removed auto-zooming for updating markers
+              // **removed auto-zooming for updating markers
               // //extend bounds for auto-zoom with each added marker
               // var loc = new google.maps.LatLng(gMarker.position.lat(), gMarker.position.lng());
               // bounds.extend(loc);
       })
-      // removed auto-zooming for updating markers
+      // **removed auto-zooming for updating markers
       // window.map.fitBounds(bounds);//auto-zoom
-      factory.roundAllNgMarkerValues(ngMarkers);
-
+      factory.roundAllNgMarkerValues(ngMarkers)
+      factory.sortMarkersByMile(ngMarkers);
+      factory.sortMarkersByMile(gMarkers);
       return {ngMarkers:ngMarkers, gMarkers:gMarkers};
     }
 
@@ -121,6 +122,7 @@
         ngMarkers[index].lat=gMarker.position.lat();
         ngMarkers[index].lng=gMarker.position.lng();
       })
+      factory.sortMarkersByMile(ngMarkers);
       return factory.roundAllNgMarkerValues(ngMarkers);
     }
 
@@ -131,6 +133,17 @@
         ngMarker.lng=Math.round(ngMarker.lng*100000)/100000;
       });
       return ngMarkers;
+    }
+
+    factory.sortMarkersByMile = function(markers){      
+      function compareByMile(a,b) {
+      if (a.mile < b.mile)
+        return -1;
+      if (a.mile > b.mile)
+        return 1;
+      return 0;
+      }
+      return markers.sort(compareByMile);
     }
 
     return factory;

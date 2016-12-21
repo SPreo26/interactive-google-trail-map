@@ -31,7 +31,7 @@
               <th class="coord-column">Longitude</th>
               <th class="remove-column misc-text"><input class="trash-button table-button" type="image" src="Trash01-128.png" ng-click="removeSelectedMarkers()"></td>
             </tr>
-            <tr ng-repeat="marker in data.ngMarkers | filter:search:startsWith | pageStart:currentPage*pageSize | pageEnd: pageSize">
+            <tr ng-repeat="marker in searchFilteredMarkers = (data.ngMarkers | filter:search:startsWith) | pageStart:(currentPage-1)*pageSize | pageEnd: pageSize">
               <td class="mile-column"><input type="text" class="input-cell" ng-model="marker.mile"></td>
               <td class="coord-column"><input type="text" class="input-cell" ng-model="marker.lat"></td>
               <td class="coord-column"><input type="text" class="input-cell" ng-model="marker.lng"></td>
@@ -47,7 +47,7 @@
         </div>
         <div class="button-column">
           <div class="search-wrapper button-column-group">
-            <input class="search-bar misc-text" placeholder="Find by Mile" ng-model="search.mile">
+            <input class="search-bar misc-text" placeholder="Find by Mile" ng-model="search.mile" ng-change="makeSurePageNotOutOfBounds()">
           </div>
           <div class="column-button-wrapper button-column-group">
             <button ng-click="mapReload()" ng-disabled="!(contentLoadedOnce)"><div class="button-text"> Load Original</div></button>
@@ -57,13 +57,13 @@
         </div>
         <div class="buttons-row">
           <div class="page-button-wrapper">
-            <button ng-disabled="currentPage == 0" ng-click="changePage(-1)">
+            <button ng-disabled="currentPage <= 1" ng-click="changePage(-1)">
               Previous
             </button>
             <div class="misc-text page-number">
-              <div>{{currentPage+1}}/{{numberOfPages()}}</div>
+              <input class="page-input" ng-model="currentPage" ng-change="deselectAllMarkers();revertUnsavedChanges();"><div class="num-pages"> / {{numberOfPages()}}</div>
             </div>
-            <button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="changePage(1)">
+            <button ng-disabled="currentPage >= numberOfPages()" ng-click="changePage(1)">
               Next
             </button>
           </div>

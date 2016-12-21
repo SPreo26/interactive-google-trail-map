@@ -167,7 +167,7 @@
     }
 
     $scope.invalidNgMarker = function(ngMarker){
-      if(ngMarker===undefined){
+      if(ngMarker===undefined || ngMarker===null){
         return true;
       }
       var latInvalid = ngMarker.lat===undefined||ngMarker.lat===""||parseFloat(ngMarker.lat)>=90||parseFloat(ngMarker.lat)<=-90;

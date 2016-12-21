@@ -6,9 +6,10 @@
 #map {
   display: inline-block;
   height: 100vh;
-  width: 50%;
+  width: 48%;
 }
 #marker-list-wrapper {
+  margin-left:5px;
   width: 48%;
   padding:10px 10px 15px 7px;
   display: inline-block;
@@ -23,31 +24,19 @@ html, body {
 .table-and-buttons-wrapper{
   width:100%;
 }
-.table-and-top-button-row-wrapper{
+.table-wrapper{
   width:80%;
   display:inline-block;
 }
 .title-row{
+  height:25px;
   margin-top:10px;
   text-align:center;
   font-size:20px;
   font-weight: bold;
-  padding-right:35px;
+  padding-right:30%;
   margin-bottom:20px;
 }
-.title-row p{
-  
-}
-
-.add-marker-wrapper button{
-  display:inline-block;
-  text-align: center;
-  height: 30px;
-  font-size: 13px;
-  margin-left: 2px;
-  margin-right: 2px;
-}
-
 
 table, td, th {    
   border: 1px solid #ddd;
@@ -58,17 +47,45 @@ table {
   border-collapse: collapse;
   width: 100%;
 }
-th, td {
-  padding: 11px 16px 11px 11px;
+th {
+  padding: 2px 13px 2px 13px;
+  font-size: 14px;
 }
-.trash-icon{
-  margin-top:3px;
-  height:18px;
+td {
+  padding: 9px 16px 9px 11px;
+}
+.header-row{
+  height:10px;
 }
 .remove-column{
   width: 10%;
   padding-bottom: 15px;
 }
+
+.remove-column-checkbox{
+
+}
+.trash-button{
+  position: relative;
+  margin-top:-8px;
+  top:12px;
+  right:5px;
+  height:19px;
+  padding:4px 4px 4px 4px;
+}
+.add-button{
+  position: relative;
+  margin-top:-15px;
+  top:13px;
+  right:3px;
+  height:15px;
+  padding:6px 6px 6px 6px;
+}
+
+.add-button, .trash-button{
+
+}
+
 .mile-column{
   width: 20%;
 }
@@ -80,8 +97,8 @@ th, td {
 } 
 
 .button-column{
-  margin-top:48px;
-  width: 18%;
+  margin-top:3px;
+  width: 19%;
   display: inline-block;
   vertical-align: top;
 }
@@ -97,12 +114,15 @@ th, td {
 }
 
 .search-wrapper{
-  margin-top:11px;
+  margin-top:0px;
 }
 .search-bar{
-  margin-left:2px;
-  height: 18px;
-  width: 84%;
+  border-width:2px;
+  border-radius:4px;
+  border-color:#c1bbae;
+  margin-left:1px;
+  height: 20px;
+  width: 87.5%;
   padding: 5px;
 }
 .column-button-wrapper button {
@@ -110,6 +130,12 @@ th, td {
   display:block;
   text-align: center;
   width: 100%;
+  
+}
+.button-text{
+  margin-right:2px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .button-row{
@@ -128,18 +154,18 @@ th, td {
   margin-right:4px;
 }
 
-.task-button-wrapper{
+/*.task-button-wrapper{
   margin-left: 3px;
 }
 .task-button-wrapper button {
   display:block;
-  text-align: center;
+  text-align: left;
   width: 100%;
   height: 30px;
   font-size: 13px;
   margin-left: 2px;
   margin-right: 2px;
-}
+}*/
 
 
 .geneva-text{
@@ -153,17 +179,32 @@ th, td {
   color:#333;
 }
 
-
-button{
-  background-color: beige;
-  border-width:2px;
+button, .table-button{
+  cursor: pointer;
+  cursor: hand;
   border-radius:4px;
+}
+button{
+  border-width:2px;
+  background-color: beige;
   border-color:#c1bbae;
   color: #353535;
 }
-
+.table-button{
+  border-width:1px;
+  border-style:solid;
+  border-color:#DDD;
+}
+.table-button:hover{
+  background-color:cornsilk;
+  border-color:#CCC;
+}
 button:disabled{
  background-color:#E0E0E0;
  border-color:#b5b0a8;
  color:#777;
-};
+}
+button:not(.table-button):hover {
+  background-color: cornsilk;
+}
+

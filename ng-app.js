@@ -27,9 +27,14 @@
     }
 
     this.updateGMarkers = function(ngMarkers,gMarkers){
-      return MapFactory.updateGMarkerValues(
-        MapFactory.removeSelectedNgMarkers(ngMarkers), gMarkers);
+      return MapFactory.updateGMarkerValues(ngMarkers, gMarkers);
     };
+
+    this.removeSelectedMarkers = function(ngMarkers,gMarkers){
+      ngMarkers = MapFactory.updateNgMarkerValues(ngMarkers,gMarkers);
+      ngMarkers = MapFactory.removeSelectedNgMarkers(ngMarkers);
+      return MapFactory.updateGMarkerValues(ngMarkers,gMarkers);
+    }
 
     this.addMarker = function(gMarkers,gMarker){
       MapFactory.addMarker(gMarkers,gMarker)

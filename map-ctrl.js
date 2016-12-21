@@ -55,13 +55,22 @@
 
     //propogate edits/deletions to both ngMarkers and gMarkers
     $scope.updateGMarkers = function(){
-      $scope.data=MapService.updateGMarkers($scope.data.ngMarkers,$scope.data.gMarkers);
+      $scope.deselectAllMarkers();
+      $scope.data = MapService.updateGMarkers($scope.data.ngMarkers,$scope.data.gMarkers);
       $scope.data.ngMarkers = $scope.sortNgMarkersByMile($scope.data.ngMarkers);
     };
 
+    $scope.removeSelectedMarkers = function(){
+      if (confirm("Delete selected markers: Are you sure?")){
+        $scope.data=MapService.removeSelectedMarkers($scope.data.ngMarkers,$scope.data.gMarkers);
+      } 
+      
+    }
+
     $scope.addMarker = function(){
+      $scope.revertUnsavedChanges();
       //use service to add one marker on map
-      $scope.data.ngMarkers = $scope.sortNgMarkersByMile();
+      $scope.data.ngMarkers = $scope.sortNgMarkersByMile($scope.data.ngMarkers);
     };
 
     $scope.changePage = function(directionSign){

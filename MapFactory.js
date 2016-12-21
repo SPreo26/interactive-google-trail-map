@@ -121,7 +121,7 @@
         ngMarkers[index].lat=gMarker.position.lat();
         ngMarkers[index].lng=gMarker.position.lng();
       })
-      factory.roundAllNgMarkerValues(ngMarkers);
+      return factory.roundAllNgMarkerValues(ngMarkers);
     }
 
     factory.roundAllNgMarkerValues = function(ngMarkers){
@@ -130,6 +130,7 @@
         ngMarker.lat=Math.round(ngMarker.lat*100000)/100000;
         ngMarker.lng=Math.round(ngMarker.lng*100000)/100000;
       });
+      return ngMarkers;
     }
 
     return factory;

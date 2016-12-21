@@ -20,33 +20,39 @@
     <div id="map"></div>
     <div id="marker-list-wrapper">
       <div class="table-and-buttons-wrapper">
-        <div class="table-and-top-button-row-wrapper">
-          <div class="title-row geneva-text">
+        <div class="title-row geneva-text">
             Trail Data
-          </div>
+        </div>
+        <div class="table-wrapper">
           <table class="helvetica-text">
-            <tr>
-              <td class="remove-column misc-text"><img class="trash-icon" src="Trash01-128.png" alt="(X)"></img></td>
+            <tr class="header-row">
               <th class="mile-column">Mile</th>
               <th class="coord-column">Lattitude</th>
               <th class="coord-column">Longitude</th>
+              <th class="remove-column misc-text"><input class="trash-button table-button" type="image" src="Trash01-128.png" ng-click="removeSelectedMarkers()"></td>
             </tr>
             <tr ng-repeat="marker in data.ngMarkers | filter:search:startsWith | pageStart:currentPage*pageSize | pageEnd: pageSize">
-              <td class="remove-column marker-checkbox"><input type="checkbox" ng-model="marker.selected"></input></td>
               <td class="mile-column"><input type="text" class="input-cell" ng-model="marker.mile"></td>
               <td class="coord-column"><input type="text" class="input-cell" ng-model="marker.lat"></td>
               <td class="coord-column"><input type="text" class="input-cell" ng-model="marker.lng"></td>
+              <td class="remove-column marker-checkbox"><input type="checkbox" ng-model="marker.selected"></input></td>
+            </tr>
+            <tr>              
+              <td class="mile-column"><input type="text" class="input-cell" ng-model="newMarker.mile"></td>
+              <td class="coord-column"><input type="text" class="input-cell" ng-model="newMarker.lat"></td>
+              <td class="coord-column"><input type="text" class="input-cell" ng-model="newMarker.lng"></td>
+              <td class="remove-column clickable" ng-click="addMarker()"><input class="add-button table-button" type="image" src="Add-icon.png"></td>
             </tr>
           </table>
         </div>
         <div class="button-column">
           <div class="search-wrapper button-column-group">
-            <input class="search-bar" placeholder="Find by Mile" ng-model="search.mile">
+            <input class="search-bar misc-text" placeholder="Find by Mile" ng-model="search.mile">
           </div>
           <div class="column-button-wrapper button-column-group">
-            <button ng-click="mapReload()" ng-disabled="!(contentLoadedOnce)">Load Original</button>
-            <button ng-click="updateGMarkers()" ng-disabled="!(contentLoadedOnce)">Save Changes</button>
-            <button ng-click="revertUnsavedChanges()" ng-disabled="!(contentLoadedOnce)">Revert Unsaved</button>
+            <button ng-click="mapReload()" ng-disabled="!(contentLoadedOnce)"><div class="button-text"> Load Original</div></button>
+            <button ng-click="updateGMarkers()" ng-disabled="!(contentLoadedOnce)"><div class="button-text">Save Edits</div></button>
+            <button ng-click="revertUnsavedChanges()" ng-disabled="!(contentLoadedOnce)"><div class="button-text">Revert Unsaved</div></button>
           </div>
         </div>
         <div class="buttons-row">

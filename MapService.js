@@ -1,5 +1,5 @@
 //this service is intended to use functions provided by the MapFactory (like MapFactory.loadMap to initiate the map)
-app.service('MapService', function(MapFactory) {
+app.service('MapService', function(MapFactory, $rootScope) {
 
   this.init = function(){
 
@@ -16,7 +16,12 @@ app.service('MapService', function(MapFactory) {
         );
     };
 
-    this.reload = function(gMarkers){
+    this.reload = function(gMarkers,gMarkerPair){
+
+      if(gMarkerPair!==null){
+        MapFactory.clearMapMarkers(gMarkerPair);
+      }
+
       MapFactory.clearMapMarkers(gMarkers);
       return MapFactory.loadInitialData(window.map); //on success returns a promise
     }
@@ -36,13 +41,32 @@ app.service('MapService', function(MapFactory) {
     this.addMarker = function(gMarkers,ngMarkers,ngMarker){
       ngMarkers.push(ngMarker);
       ngMarkers=MapFactory.sortMarkersByMile(ngMarkers);
-      gMarkers=MapFactory.addGMarker(gMarkers,ngMarker);
+      gMarkers=MapFactory.addGMarker(gMarkers,ngMarker,$rootScope.icon);
       gMarkers=MapFactory.sortMarkersByMile(gMarkers);
       return {ngMarkers:ngMarkers, gMarkers:gMarkers};
     };
 
     this.updateNgMarkers = function(ngMarkers,gMarkers){
       MapFactory.updateNgMarkerValues(ngMarkers,gMarkers);
+    };
+
+    this.showClosestMarker = function(lat,lng,gMarkerPair,ngMarkers){
+      var newGMarkerPair=[];
+      var inputNgMarker = {lat:lat,lng:lng};
+
+      if (gMarkerPair!==undefined){
+        gMarkerPair.forEach(function(gMarker){
+          //erase any existing old closest pair
+          if(gMarker!==undefined){
+            gMarker.setMap(null);
+          }
+        });
+      }
+      MapFactory.addGMarker(newGMarkerPair,inputNgMarker,null)//null means use default Google Maps marker icon
+      var closestNgMarker = MapFactory.findClosestMarker(lat,lng,ngMarkers)
+      newGMarkerPair = MapFactory.addGMarker(newGMarkerPair,closestNgMarker,null)
+
+      return newGMarkerPair;
     };
 
 });

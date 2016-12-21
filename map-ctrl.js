@@ -42,7 +42,16 @@
     //reload original map data
     $scope.mapReload = function(){
 
-      MapService.reload($scope.data.gMarkers).then(
+      //clear the pair of markers used for closest marker search
+      var gMarkerPair;
+      if ($scope.locate==undefined || $scope.locate.gMarkerPair==undefined){
+        gMarkerPair=null;
+      }
+      else{
+        gMarkerPair=$scope.locate.gMarkerPair
+      }
+
+      MapService.reload($scope.data.gMarkers,gMarkerPair).then(
         function(data){
           $scope.data = data;
           //go back to first page and reset search, if there was one
@@ -100,22 +109,28 @@
     $scope.addMarker = function(){
       $scope.revertUnsavedChanges();
       var ngMarker=$scope.newMarker;
-      $scope.data=MapService.addMarker($scope.data.gMarkers,$scope.data.ngMarkers,ngMarker)
-
-      if ($scope.search){
-        $scope.search.mile="";
+      var invalid = $scope.invalidNgMarker (ngMarker);
+      if (invalid){
+        alert("Please enter a valid mile number, lattitude and longitude.")
       }
+      else{
+        $scope.data=MapService.addMarker($scope.data.gMarkers,$scope.data.ngMarkers,ngMarker)
 
-      //set current page to page that contains the marker (search by mile)
-      //(this assumes only markers with unique mile numbers are entered - otherwise ngMarkers is sorted so derived page should still be fairly accurate)
-      var i;//will have the index of the marker we search for
-      for(i = 0; i < $scope.data.ngMarkers.length; i++) {
-        if($scope.data.ngMarkers[i].mile === parseFloat($scope.newMarker.mile)) {
-          break;
+        if ($scope.search){
+          $scope.search.mile="";
         }
+
+        //set current page to page that contains the marker (search by mile)
+        //(this assumes only markers with unique mile numbers are entered - otherwise ngMarkers is sorted so derived page should still be fairly accurate)
+        var i;//will have the index of the marker we search for
+        for(i = 0; i < $scope.data.ngMarkers.length; i++) {
+          if($scope.data.ngMarkers[i].mile === parseFloat($scope.newMarker.mile)) {
+            break;
+          }
+        }
+        $scope.currentPage=Math.ceil((i+1)/$scope.pageSize);
+        $scope.newMarker=null;
       }
-      $scope.currentPage=Math.ceil((i+1)/$scope.pageSize);
-      $scope.newMarker=null;
     };
 
     $scope.changePage = function(directionSign){
@@ -141,6 +156,25 @@
       })
     }
 
+    $scope.showClosestMarker = function(){
+      if ($scope.locate && $scope.locate.lat && $scope.locate.lng){
+        //find and display input marker and closest trail marker
+        $scope.locate.gMarkerPair = MapService.showClosestMarker($scope.locate.lat,$scope.locate.lng,$scope.locate.gMarkerPair,$scope.data.ngMarkers);
+      }
+      else{
+        alert("Please enter both lattitude and longitude above Closest Marker button.")
+      }
+    }
+
+    $scope.invalidNgMarker = function(ngMarker){
+      if(ngMarker===undefined){
+        return true;
+      }
+      var latInvalid = ngMarker.lat===undefined||ngMarker.lat===""||parseFloat(ngMarker.lat)>=90||parseFloat(ngMarker.lat)<=-90;
+      var lngInvalid = ngMarker.lng===undefined||ngMarker.lng===""||parseFloat(ngMarker.lng)>180||parseFloat(ngMarker.lng)<-180;
+      var mileInvalid = ngMarker.mile===undefined||ngMarker.mile===""||parseFloat(ngMarker.mile)<0;
+      return latInvalid||lngInvalid||mileInvalid;
+    }
     //filter comparator to get results starting with search string (e.g. start of mile string must match search)
     $scope.startsWith = function (actual, expected) {
       var lowerStr = (actual + "").toLowerCase();

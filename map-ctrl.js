@@ -48,7 +48,6 @@
     };
 
     $scope.revertUnsavedChanges = function(){//clear any edits (update ngMarkers from gMarkers)
-      $scope.deselectAllMarkers();
       //repopulate data in table with data from map
       MapService.updateNgMarkers($scope.data.ngMarkers,$scope.data.gMarkers);
     };  
@@ -61,9 +60,21 @@
     };
 
     $scope.removeSelectedMarkers = function(){
-      if (confirm("Delete selected markers: Are you sure?")){
-        $scope.data=MapService.removeSelectedMarkers($scope.data.ngMarkers,$scope.data.gMarkers);
-      } 
+      var areAnySelected = false;
+      $scope.data.ngMarkers.forEach(function(marker){
+        if(marker.selected){
+          areAnySelected=true;
+        }
+      })
+
+      if (areAnySelected){
+        if (confirm("Delete selected markers: Are you sure?")){
+          $scope.data=MapService.removeSelectedMarkers($scope.data.ngMarkers,$scope.data.gMarkers);
+        }
+      }
+      else{
+        alert("Please select at least one marker to delete.")
+      }
       
     }
 
@@ -74,6 +85,7 @@
     };
 
     $scope.changePage = function(directionSign){
+      $scope.deselectAllMarkers();
       $scope.revertUnsavedChanges()//clear any edits after page is switched
       $scope.currentPage=$scope.currentPage+directionSign;//page buttons are automatically disabled in html to prevent going out of bounds
     };

@@ -8,7 +8,7 @@
     //load the map without any data (should be done only on page refresh)
     factory.loadMap = function() {
       var deferred = $q.defer();//defer for .then chaining of processes that need to wait on the map object returned here
-      var map = new google.maps.Map($('#map')[0], {});
+      var map = new google.maps.Map($('#map')[0], {mapTypeId: 'hybrid'});
         //make sure map is loaded before doing the afterNewMapObjLoaded() code below
       window.infowindow = new google.maps.InfoWindow();
       deferred.resolve(map);
@@ -66,7 +66,7 @@
           factory.roundAllNgMarkerValues(ngMarkers);
 
           deferred.resolve({ngMarkers:ngMarkers,gMarkers:gMarkers});
-                      
+
           return deferred.promise;
         },
 

@@ -30,13 +30,13 @@
               <th class="mile-column">Mile</th>
               <th class="coord-column">Lattitude</th>
               <th class="coord-column">Longitude</th>
-              <th class="remove-column misc-text"><input class="trash-button table-button" type="image" src="Trash01-128.png" ng-click="removeSelectedMarkers()" ng-class="{true:'enabled',false:''}[contentLoadedOnce]"></td>
+              <th class="remove-column misc-text"><input class="trash-button table-button" type="image" src="Trash01-128.png" ng-click="removeSelectedMarkers()" ng-class="{true:'enabled',false:''}[contentLoadedOnce]"></th>
             </tr>
             <tr ng-repeat="marker in searchFilteredMarkers = (data.ngMarkers | filter:search:startsWith) | pageStart:(currentPage-1)*pageSize | pageEnd: pageSize">
               <td class="mile-column"><input type="text" class="input-cell" ng-model="marker.mile"></td>
               <td class="coord-column"><input type="text" class="input-cell" ng-model="marker.lat"></td>
               <td class="coord-column"><input type="text" class="input-cell" ng-model="marker.lng"></td>
-              <td class="remove-column marker-checkbox"><input type="checkbox" ng-model="marker.selected"></input></td>
+              <td class="remove-column marker-checkbox"><input type="checkbox" ng-model="marker.selected"></td>
             </tr>
             <tr>              
               <td class="mile-column"><input type="text" class="input-cell" ng-model="newMarker.mile"></td>

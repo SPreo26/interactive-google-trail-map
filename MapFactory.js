@@ -58,6 +58,7 @@
             //extend bounds for auto-zoom with each added marker
             var loc = new google.maps.LatLng(gMarker.position.lat(), gMarker.position.lng());
             bounds.extend(loc);
+
           })
 
           //auto-zoom now that bounds are known with all markers being on map
@@ -65,6 +66,7 @@
           factory.roundAllNgMarkerValues(ngMarkers);
 
           deferred.resolve({ngMarkers:ngMarkers,gMarkers:gMarkers});
+                      
           return deferred.promise;
         },
 

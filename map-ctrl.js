@@ -60,8 +60,8 @@
             $scope.search.mile="";
           }
           //reset searchFilteredMarkers set of ngMarkers as full set (used to figure out number of pages, depending on search bar filtering)
-          $scope.searchFilteredMarkers=data.ngMarkers  
-          $scope.makeSurePageNotOutOfBounds();  
+          $scope.searchFilteredMarkers=data.ngMarkers;
+          $scope.makeSurePageNotOutOfBoundsOrDecimal();   
         },
         function(error){
           alert("Failed to package reloaded marker data - see browser console for error");
@@ -98,7 +98,7 @@
         if (confirm("Delete selected markers: Are you sure?")){
           $scope.data=MapService.removeSelectedMarkers($scope.data.ngMarkers,$scope.data.gMarkers);
           $scope.searchFilteredMarkers=$scope.data.ngMarkers;
-          $scope.makeSurePageNotOutOfBounds();
+          $scope.makeSurePageNotOutOfBoundsOrDecimal();
         }
       }
       else{

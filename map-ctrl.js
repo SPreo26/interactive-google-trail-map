@@ -171,12 +171,12 @@
     }
 
     $scope.showClosestMarker = function(){
-      if ($scope.locate && $scope.locate.lat && $scope.locate.lng){
+      if ($scope.locate && $scope.locate.lat && $scope.locate.lng && !$scope.invalidNgMarker({lat:$scope.locate.lat,lng:$scope.locate.lng,mile:0})){
         //find and display input marker and closest trail marker
         $scope.locate.gMarkerPair = MapService.showClosestMarker($scope.locate.lat,$scope.locate.lng,$scope.locate.gMarkerPair,$scope.data.ngMarkers);
       }
       else{
-        alert("Please enter both lattitude and longitude above Closest Marker button.")
+        alert("Please enter valid lattitude and longitude above Closest Marker button.")
       }
     }
 

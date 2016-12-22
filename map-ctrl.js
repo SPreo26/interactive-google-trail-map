@@ -144,7 +144,6 @@
     $scope.makeSurePageNotOutOfBoundsOrDecimal = function(){
       //round down any decimal page numbers
       $scope.currentPage=Math.floor(parseFloat($scope.currentPage));
-      console.log($scope.currentPage);
       if ($scope.currentPage>$scope.numberOfPages()){
         $scope.currentPage=$scope.numberOfPages();
       }

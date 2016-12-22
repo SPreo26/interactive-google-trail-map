@@ -60,8 +60,8 @@
             $scope.search.mile="";
           }
           //reset searchFilteredMarkers set of ngMarkers as full set (used to figure out number of pages, depending on search bar filtering)
-          $scope.searchFilteredMarkers=data.ngMarkers  
-          $scope.makeSurePageNotOutOfBounds();  
+          $scope.searchFilteredMarkers=data.ngMarkers;
+          $scope.makeSurePageNotOutOfBoundsOrDecimal();   
         },
         function(error){
           alert("Failed to package reloaded marker data - see browser console for error");
@@ -98,7 +98,7 @@
         if (confirm("Delete selected markers: Are you sure?")){
           $scope.data=MapService.removeSelectedMarkers($scope.data.ngMarkers,$scope.data.gMarkers);
           $scope.searchFilteredMarkers=$scope.data.ngMarkers;
-          $scope.makeSurePageNotOutOfBounds();
+          $scope.makeSurePageNotOutOfBoundsOrDecimal();
         }
       }
       else{
@@ -141,12 +141,26 @@
 
     //in case reloading/searching caused number of pages to shrink, and one was on a page now out of bounds, set page to current last page
     //also used to prevent user from entering pages out of bounds
-    $scope.makeSurePageNotOutOfBounds = function(){   
-      if (+$scope.currentPage>$scope.numberOfPages()){
+    $scope.makeSurePageNotOutOfBoundsOrDecimal = function(){
+      
+      //round down any decimal page numbers and prevent non-numerical inputs
+      $scope.currentPage=Math.floor(parseFloat($scope.currentPage));
+      
+      if ($scope.currentPage>$scope.numberOfPages()){
         $scope.currentPage=$scope.numberOfPages();
       }
-      if ($scope.currentPage!=""&&+$scope.currentPage<1){
+      if ($scope.currentPage!==""&&+$scope.currentPage<1){
         $scope.currentPage=1;
+      }
+    }
+    
+    //used to make sure the page search being blank
+    $scope.handlePageInputParsedAsZero = function(currentPage){
+      if((+currentPage)==0){
+        return 1;
+      }
+      else{
+        return currentPage;
       }
     }
 
@@ -157,12 +171,12 @@
     }
 
     $scope.showClosestMarker = function(){
-      if ($scope.locate && $scope.locate.lat && $scope.locate.lng){
+      if ($scope.locate && $scope.locate.lat && $scope.locate.lng && !$scope.invalidNgMarker({lat:$scope.locate.lat,lng:$scope.locate.lng,mile:0})){
         //find and display input marker and closest trail marker
         $scope.locate.gMarkerPair = MapService.showClosestMarker($scope.locate.lat,$scope.locate.lng,$scope.locate.gMarkerPair,$scope.data.ngMarkers);
       }
       else{
-        alert("Please enter both lattitude and longitude above Closest Marker button.")
+        alert("Please enter valid lattitude and longitude above Closest Marker button.")
       }
     }
 

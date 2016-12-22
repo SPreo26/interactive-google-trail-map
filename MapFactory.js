@@ -8,7 +8,10 @@
     //load the map without any data (should be done only on page refresh)
     factory.loadMap = function() {
       var deferred = $q.defer();//defer for .then chaining of processes that need to wait on the map object returned here
-      var map = new google.maps.Map($('#map')[0], {});
+      var map = new google.maps.Map($('#map')[0], {
+        mapTypeId: 'hybrid',
+        scaleControl: true
+      });
         //make sure map is loaded before doing the afterNewMapObjLoaded() code below
       window.infowindow = new google.maps.InfoWindow();
       deferred.resolve(map);
@@ -58,6 +61,7 @@
             //extend bounds for auto-zoom with each added marker
             var loc = new google.maps.LatLng(gMarker.position.lat(), gMarker.position.lng());
             bounds.extend(loc);
+
           })
 
           //auto-zoom now that bounds are known with all markers being on map
@@ -65,6 +69,7 @@
           factory.roundAllNgMarkerValues(ngMarkers);
 
           deferred.resolve({ngMarkers:ngMarkers,gMarkers:gMarkers});
+
           return deferred.promise;
         },
 
@@ -161,19 +166,20 @@
     }
 
     factory.findClosestMarker = function(lat,lng,ngMarkers){
-      var p1 = [lat,lng]
+      var p1 = new google.maps.LatLng(lat, lng);
       var ngMarkerMin=ngMarkers[0];//this will hold final candidate, initialize with first marker
-      var p2 = [ngMarkerMin.lat, ngMarkerMin.lng];//candidate marker points for minimum distance
-      var minDist = factory.getDistanceFromLatLonInKm(p1, p2);//haversine distance in km
+      var p2 = new google.maps.LatLng(ngMarkerMin.lat, ngMarkerMin.lng);//candidate marker points for minimum distance
+      var minDist = google.maps.geometry.spherical.computeDistanceBetween(p1, p2);//haversine distance in m
       var dist;
 
       //skip the first marker as it's the initial candidate
       ngMarkers.slice(1).forEach(function(ngMarker){
-        p2 = [ngMarker.lat, ngMarker.lng];
-        dist = factory.getDistanceFromLatLonInKm(p1, p2);
+        p2 = new google.maps.LatLng(ngMarker.lat, ngMarker.lng);
+        dist = google.maps.geometry.spherical.computeDistanceBetween(p1, p2);
         if (dist<minDist){//neglecting the highly improbably chance of a tie, in that case the closest marker latest in the array (highest mile) will be picked
           minDist=dist;
           ngMarkerMin=ngMarker;
+          
         }
       });
 
@@ -184,28 +190,6 @@
       window.map.fitBounds(bounds);
 
       return ngMarkerMin; 
-    }
-
-    //using more approximate ideal formula for haversine for now as ran into issues with google maps api formula, namely fetching the right libraries
-    factory.getDistanceFromLatLonInKm=function(p1,p2){
-      function deg2rad(deg) {
-        return deg * (Math.PI/180)
-      };
-      var lat1=p1[0];
-      var lon1=p1[1];
-      var lat2=p2[0];
-      var lon2=p2[1];
-      var R = 6371; // Radius of the earth in km
-      var dLat = deg2rad(lat2-lat1);  // deg2rad below
-      var dLon = deg2rad(lon2-lon1); 
-      var a = 
-        Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-        Math.sin(dLon/2) * Math.sin(dLon/2)
-        ; 
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-      var d = R * c; // Distance in km
-      return d;
     }
 
     factory.setTooltip=function(gMarker,map,title){

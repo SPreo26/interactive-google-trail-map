@@ -141,12 +141,25 @@
 
     //in case reloading/searching caused number of pages to shrink, and one was on a page now out of bounds, set page to current last page
     //also used to prevent user from entering pages out of bounds
-    $scope.makeSurePageNotOutOfBounds = function(){   
-      if (+$scope.currentPage>$scope.numberOfPages()){
+    $scope.makeSurePageNotOutOfBoundsOrDecimal = function(){
+      //round down any decimal page numbers
+      $scope.currentPage=Math.floor(parseFloat($scope.currentPage));
+      console.log($scope.currentPage);
+      if ($scope.currentPage>$scope.numberOfPages()){
         $scope.currentPage=$scope.numberOfPages();
       }
-      if ($scope.currentPage!=""&&+$scope.currentPage<1){
+      if ($scope.currentPage!==""&&+$scope.currentPage<1){
         $scope.currentPage=1;
+      }
+    }
+    
+    //used to make sure the page Search being blank or invalid character
+    $scope.handlePageInputParsedAsZero = function(currentPage){
+      if((+currentPage)==0){
+        return 1;
+      }
+      else{
+        return currentPage;
       }
     }
 

@@ -4,13 +4,6 @@ app.run(function($q, $rootScope) {
   $rootScope.getInitialData=function(){
     var deferred = $q.defer();//used for being able to have a .then callback to make sure the data below loads before used
 
-    var icon = {
-      url:'./1000px-Reddot-small.png',
-      scaledSize: new google.maps.Size(10, 10),
-      origin: new google.maps.Point(0,0), 
-      anchor: new google.maps.Point(5,5)
-    };
-
     var rawData = [
     [0,32.58971,-116.46696],
     [0.5,32.59585,-116.46671],
@@ -5352,7 +5345,7 @@ app.run(function($q, $rootScope) {
     [2668.5,49.062777,-120.789314]
     ];
 
-    deferred.resolve({icon:icon, rawData:rawData});
+    deferred.resolve({rawData:rawData});
     return deferred.promise;
   };
 });

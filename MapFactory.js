@@ -10,7 +10,9 @@
       var deferred = $q.defer();//defer for .then chaining of processes that need to wait on the map object returned here
       var map = new google.maps.Map($('#map')[0], {
         mapTypeId: 'hybrid',
-        scaleControl: true
+        scaleControl: true,
+        center: {lat:30,lng:-100},
+        zoom: 3
       });
         //make sure map is loaded before doing the afterNewMapObjLoaded() code below
       window.infowindow = new google.maps.InfoWindow();
@@ -52,7 +54,7 @@
               position: {lat: elem[1], lng: elem[2]},
               map: map,
               title: title,
-              icon: $rootScope.icon,
+              icon: $rootScope.getIcon(),
               mile: elem[0]//custom property used to be able to revert edits made to miles
             });
             factory.setTooltip(gMarker,map,title);

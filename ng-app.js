@@ -3,6 +3,16 @@
 
   var app = angular.module("app", []);
 
+  app.run(function($q, $rootScope) {
+    $rootScope.getIcon = function(){
+      return $rootScope.icon = {
+      url:'./1000px-Reddot-small.png',
+      scaledSize: new google.maps.Size(10, 10),
+      origin: new google.maps.Point(0,0), 
+      anchor: new google.maps.Point(5,5)
+    };
+  }});
+
   //custom filters for page start and page end
   app.filter('pageStart', function() {
     return function(input, start) {

@@ -6,8 +6,9 @@ app.service('MapService', function(MapFactory, $rootScope) {
       //on success returns a promise returned inside .then
       return MapFactory.loadMap().then(
         function(map){
+          $rootScope.getIcon();
           window.map=map;//attached map to window to make it global (also useful for debugging)
-          return MapFactory.loadInitialData(map); //on success returns a promise
+          return {ngMarkers:[],gMarkers:[]}; //on success returns empty arrays to be filled with markers
         },
         function(error){
           alert("Failed to load Google Maps - see browser console for error");

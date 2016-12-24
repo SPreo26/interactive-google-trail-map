@@ -24,7 +24,7 @@
           //initialize searchFilteredMarkers set of ngMarkers as full set (used to figure out number of pages, depending on search bar filtering)
           $scope.searchFilteredMarkers=data.ngMarkers
           $scope.numberOfPages=function(){
-          return Math.ceil($scope.searchFilteredMarkers.length/$scope.pageSize);
+          return Math.ceil($scope.searchFilteredMarkers.length/$scope.pageSize)||1;
           };
           $scope.contentLoadedOnce = true;
         },

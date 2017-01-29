@@ -2,5 +2,5 @@
 * Can manually load a list of Pacific Coast Trail mile marker lat/lon coordinates into the browser's local storage
 * Add, edit, delete PCT mile marker lat/lon coordinates from local storage using mile marker UI
 * Can Update Google Maps display of PCT based on changes to PCT mile markers in local storage
-* Can search for nearest PCT mile marker given an arbitrary lat/lon (hint: Haversine)
+* Can search for nearest PCT mile marker given an arbitrary lat/lon (Haversine)
 * Has a search bar and Pagination
